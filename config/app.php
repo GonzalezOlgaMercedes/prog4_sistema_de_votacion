@@ -64,8 +64,8 @@ return [
     | is set to "UTC" by default as it is suitable for most use cases.
     |
     */
-
-    'timezone' => 'UTC',
+    //zona horaria argentina
+    'timezone' => 'America/Argentina/Buenos_Aires',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,9 +78,9 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => 'es',
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'fallback_locale' => 'es',
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
