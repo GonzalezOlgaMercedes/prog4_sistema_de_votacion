@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Votacion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin'),
             'is_admin' => true,
+        ]);
+        
+        Votacion::create([
+            'titulo' => 'Menta granizada ¿Si o no?',
+            'estado' => 'cerrada',
         ]);
     }
 }

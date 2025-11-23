@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('votacions', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');//Titulo de la votación
-            $table->boolean('estado')->default(true);//Estado de la votación (abierta/cerrada)
+            $table->string('estado')->default('cerrada');//Estado de la votación (abierta/cerrada)
             $table->timestamps();
         });
     }
