@@ -12,4 +12,9 @@ class Votacion extends Model
         'titulo', //string
         'estado', //string 'abierta', 'cerrada'
     ];
+
+    public function opciones()
+    {
+        return $this->hasMany(Opcion::class);
+    }
 }

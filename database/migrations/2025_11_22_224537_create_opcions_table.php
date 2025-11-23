@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('opcions', function (Blueprint $table) {
             $table->id();
             $table->string('opcion_disponible');
+            $table->unsignedBigInteger('votacion_id');
+            $table->foreign('votacion_id')->references('id')->on('votacions')->onDelete('cascade');
             $table->timestamps();
         });
     }

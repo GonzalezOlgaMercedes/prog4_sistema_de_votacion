@@ -8,6 +8,12 @@ class Opcion extends Model
 {
     protected $table = 'opcions';
     protected $fillable = [
-        'opcion_disponible'
+        'opcion_disponible',
+        'votacion_id',
     ];
+
+    public function votacion()
+    {
+        return $this->belongsTo(Votacion::class);
+    }
 }

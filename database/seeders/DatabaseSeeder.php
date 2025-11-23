@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Opcion;
 use App\Models\User;
 use App\Models\Votacion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,9 +26,22 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
         
-        Votacion::create([
+        $votacion =  Votacion::create([
             'titulo' => 'Menta granizada ¿Si o no?',
             'estado' => 'cerrada',
+        ]);
+        
+        Opcion::create([
+            'opcion_disponible' => 'Si',
+            'votacion_id' => $votacion->id,
+        ]);
+        Opcion::create([
+            'opcion_disponible' => 'No',
+            'votacion_id' => $votacion->id,
+        ]);
+        Opcion::create([
+            'opcion_disponible' => '¡A la hoguera!',
+            'votacion_id' => $votacion->id,
         ]);
     }
 }
