@@ -9,8 +9,17 @@ class Voto extends Model
     protected $table = 'votos';
 
     protected $fillable = [
-        'usuario_id',
+        'uuid',
         'votacion_id',
         'opcion_id',
     ];
+
+    public function votacion()
+    {
+        return $this->belongsTo(Votacion::class);
+    }
+    public function opcion()
+    {
+        return $this->belongsTo(Opcion::class);
+    }
 }
