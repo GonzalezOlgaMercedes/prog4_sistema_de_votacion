@@ -1,14 +1,18 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Votacion;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $votaciones = Votacion::where('estado','abierta')->limit(10)->get();
+    return view('welcome' ,['votaciones' => $votaciones]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    //Dashboard debe recibir $votaciones
+    $votaciones = Votacion::limit(10)->get();
+    return view('dashboard', ['votaciones' => $votaciones]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

@@ -9,7 +9,7 @@ class Votacion extends Model
     protected $table = 'votacions'; // Nombre de la tabla en la base de datos
     //fillable fields
     protected $fillable = [
-        'titulo', 
-        'estado',
+        'titulo', //string
+        'estado', //string 'abierta', 'cerrada'
     ];
 }
