@@ -34,7 +34,7 @@ Route::get('/votar/{id}', function ($id) {
             ->where('votacion_id', $votacion->id)
             ->first();
         if ($votoExistente) {
-            return "Pagina Resultado";
+            return redirect('/resultados/'.$votacion->id)->withErrors(['uuid' => 'Ya ha votado en esta votación.']);
         }
     }
 
@@ -77,5 +77,10 @@ Route::post('/votar/{id}', function(Request $request, $id){
 
     return redirect('/')->with('status', 'Voto registrado exitosamente.');
 })->name('voto.store');
+
+Route::get('/resultados/{id}', function ($id) {
+    $votacion = Votacion::with('votos.opcion')->findOrFail($id);
+    return view('resultados', ['votacion' => $votacion]);
+})->name('resultados');
 
 require __DIR__.'/auth.php';
