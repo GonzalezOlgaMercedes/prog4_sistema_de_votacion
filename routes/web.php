@@ -1,7 +1,9 @@
 <?php
 
+use App\Events\VotoEmitido;
 use App\Http\Controllers\ProfileController;
 use App\Models\Votacion;
+use App\Models\Voto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -70,11 +72,16 @@ Route::post('/votar/{id}', function(Request $request, $id){
     }
 
     //Crear el voto
-    \App\Models\Voto::create([
+    $voto = Voto::create([
         'uuid' => $validated['uuid'],
         'votacion_id' => $votacion['id'],
         'opcion_id' => $validated['opcion_id'],
     ]);
+
+    //Disparamos un evento Socket
+    Log::info("Disparando evento VotoEmitido para el voto ID: " . $voto->id);
+    event(new VotoEmitido($voto));
+    Log::info("Evento VotoEmitido disparado para el voto ID: " . $voto->id);
 
     return redirect('/')->with('status', 'Voto registrado exitosamente.');
 })->name('voto.store');

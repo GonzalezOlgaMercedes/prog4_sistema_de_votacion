@@ -2,24 +2,28 @@
 
 namespace App\Events;
 
+use App\Models\Voto;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class VotoEmitido
+class VotoEmitido implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public $voto;
+    public function __construct(Voto $voto)
     {
-        //
+        Log::info("Evento VotoEmitido creado para el voto ID: " . $voto->id);
+        $this->voto = $voto->load('opcion');
     }
 
     /**
@@ -27,10 +31,19 @@ class VotoEmitido
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('channel-name'),
+        return new Channel('resultados');
+    }
+
+    public function broadcastAs()
+    {
+        return 'voto.emitido';
+    }
+    public function broadcastWith(): array
+    {
+            return [
+            'voto' => $this->voto,
         ];
     }
 }
