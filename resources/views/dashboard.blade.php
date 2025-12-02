@@ -12,7 +12,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex flex-row justify-between items-center mb-6">
                         <h1 class="text-2xl font-bold">Lista de Votaciones</h1>
-                        <button class="px-3 py-2 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-lg">+ Nueva</button>
+                        <a href="{{ route('votacion.nueva') }}" class="px-3 py-2 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-lg">+ Nueva</a>
                     </div>
                 <table class="min-w-full bg-white dark:bg-gray-700">
                     <thead>
@@ -42,23 +42,11 @@
                                         @if($votacion->estado === 'abierta') 
                                             class="text-gray-400 pointer-events-none cursor-not-allowed mb-2"
                                         @else
-                                            href="#"
+                                            href="{{ route('votacion.editar', $votacion->id) }}"
                                             class="text-blue-500 hover:underline mb-2"
                                         @endif
                                         >
                                             Editar
-                                        </a>
-                                    </div>
-                                    <!-- quitar o agregar opciones -->
-                                     <div> <a 
-                                        @if($votacion->estado === 'abierta') 
-                                            class="text-gray-400 pointer-events-none cursor-not-allowed mb-2"
-                                        @else
-                                            href="#"
-                                            class="text-blue-500 hover:underline mb-2"
-                                        @endif
-                                        >
-                                            Agregar/Quitar Opciones
                                         </a>
                                     </div>
                                      <!-- Cerrar o abrir -->

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\Votacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -95,3 +96,88 @@ Route::put('/votacion/{id}/alternar', function ($id) {
     $votacion->save();
     return redirect()->back()->with('status', 'Votación '.$votacion->estado.' exitosamente.');
 })->middleware(['auth'])->name('votacion.alternar');
+
+Route::get('/votacion/nueva', function () {
+    return view('form_votacion');
+})->middleware(['auth'])->name('votacion.nueva');
+
+Route::get('/votacion/{id}/editar', function ($id) {
+    $votacion = Votacion::with('opciones')->findOrFail($id);
+    return view('form_votacion', ['votacion' => $votacion]);
+})->middleware(['auth'])->name('votacion.editar');
+
+Route::post('/votacion', function (Request $request) {
+    Log::info($request->all());
+    $request->validate([
+        'titulo' => 'required|string|max:255',
+        'opciones' => 'required|array|min:1',
+        'opciones.*.texto' => 'required|string|max:255',
+        'opciones.*.id' => 'nullable|integer'
+    ]);
+
+    $votacion = Votacion::create([
+        'titulo' => $request->titulo,
+        'estado' => 'abierta',
+    ]);
+
+    foreach ($request->opciones as $opcionForm) {
+        $votacion->opciones()->create([
+            'opcion_disponible' => $opcionForm["texto"],
+        ]);
+    }
+
+    return redirect()->route('votacion.editar', $votacion->id)
+        ->with('success', 'Votación creada correctamente.');
+})->middleware(['auth'])->name('votacion.guardar');
+
+Route::put('/votacion/{id}', function (Request $request, $id) {
+    $request->validate([
+        'titulo' => 'required|string|max:255',
+        'opciones' => 'required|array|min:1',
+        'opciones.*.texto' => 'required|string|max:255',
+        'opciones.*.id' => 'nullable|integer'
+    ]);
+
+    $votacion = Votacion::with('opciones.votos')->findOrFail($id);
+
+    // Actualizar título
+    $votacion->update(['titulo' => $request->titulo]);
+
+    $idsRecibidos = collect($request->opciones)->pluck('id')->filter()->toArray();
+
+    // 1) ELIMINAR opciones sin votos que no estén en el form
+    foreach ($votacion->opciones as $op) {
+        if (!in_array($op->id, $idsRecibidos)) {
+            if ($op->votos->count() === 0) {
+                $op->delete(); // solo borrar si no tiene votos
+            }
+        }
+    }
+
+    // 2) ACTUALIZAR o CREAR opciones
+    foreach ($request->opciones as $opcionForm) {
+
+        // OPCIÓN EXISTENTE
+        if (!empty($opcionForm["id"])) {
+            $op = $votacion->opciones->firstWhere('id', $opcionForm["id"]);
+
+            if ($op) {
+                // tiene votos → NO se puede editar
+                if ($op->votos->count() === 0) {
+                    $op->update([
+                        'opcion_disponible' => $opcionForm["texto"]
+                    ]);
+                }
+            }
+        } 
+        
+        // OPCIÓN NUEVA
+        else {
+            $votacion->opciones()->create([
+                'opcion_disponible' => $opcionForm["texto"]
+            ]);
+        }
+    }
+
+    return back()->with('success', 'Votación actualizada.');
+})->middleware(['auth'])->name('votacion.actualizar');
