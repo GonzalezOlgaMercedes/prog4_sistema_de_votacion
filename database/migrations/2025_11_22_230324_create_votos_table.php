@@ -16,7 +16,6 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->unsignedBigInteger('votacion_id');//en qué votación votó
             $table->unsignedBigInteger('opcion_id');//qué opción eligió
-            $table->foreign('votacion_id')->references('id')->on('votacions')->onDelete('cascade');
             $table->foreign('opcion_id')->references('id')->on('opcions')->onDelete('cascade');
             $table->timestamps();
             //Aseguramos que uuid y votacion sean unicos juntos
