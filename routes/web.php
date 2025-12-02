@@ -84,3 +84,14 @@ Route::get('/resultados/{id}', function ($id) {
 })->name('resultados');
 
 require __DIR__.'/auth.php';
+
+Route::put('/votacion/{id}/alternar', function ($id) {
+    $votacion = Votacion::findOrFail($id);
+    if($votacion->estado == 'cerrada'){
+        $votacion->estado = 'abierta';
+    } else {
+        $votacion->estado = 'cerrada';
+    }
+    $votacion->save();
+    return redirect()->back()->with('status', 'Votación '.$votacion->estado.' exitosamente.');
+})->middleware(['auth'])->name('votacion.alternar');
