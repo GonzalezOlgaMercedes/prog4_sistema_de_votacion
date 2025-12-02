@@ -27,6 +27,17 @@ Route::get('/votar/{id}', function ($id) {
     if($votacion->estado != 'abierta'){
         return redirect('/')->withErrors(['votacion' => 'La votación está cerrada. No se pueden registrar más votos.']);
     }
+    $uuid = request()->query('uuid',false);
+    if($uuid){
+        //Verificamos si ya votó, la opcion_id nos permitirá buscar la votacion correcta
+        $votoExistente = \App\Models\Voto::where('uuid', $uuid)
+            ->where('votacion_id', $votacion->id)
+            ->first();
+        if ($votoExistente) {
+            return "Pagina Resultado";
+        }
+    }
+
     return view('votar', ['votacion' => $votacion]);
 })->name('votar');
 
@@ -42,6 +53,14 @@ Route::post('/votar/{id}', function(Request $request, $id){
         'opcion_id' => 'required|exists:opcions,id',
         'uuid' => 'required|uuid'
     ]);
+
+    //Verificamos si ya votó, la opcion_id nos permitirá buscar la votacion correcta
+    $votoExistente = \App\Models\Voto::where('uuid', $validated['uuid'])
+        ->where('votacion_id', $votacion->id)
+        ->first();
+    if ($votoExistente) {
+        return redirect()->back()->withErrors(['uuid' => 'Ya ha votado en esta votación.']);
+    }
 
     //Verificar que la opción pertenezca a la votación
     $opcion = $votacion->opciones()->where('id', $validated["opcion_id"])->first();

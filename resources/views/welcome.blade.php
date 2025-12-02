@@ -60,6 +60,7 @@
                                             <th class="py-2 px-4 border-b">ID</th>
                                             <th class="py-2 px-4 border-b">Título</th>
                                             <th class="py-2 px-4 border-b">Estado</th>
+                                            <th class="py-2 px-4 border-b">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -68,6 +69,21 @@
                                                 <td class="py-2 px-4 border-b">{{ $votacion->id }}</td>
                                                 <td class="py-2 px-4 border-b">{{ $votacion->titulo }}</td>
                                                 <td class="py-2 px-4 border-b">{{ $votacion->estado }}</td>
+                                                <td class="py-2 px-4 border-b">
+                                                    <!-- Tenemos que recuperar el uuid del js si es que existe y mandarlo como argumento de la petición get -->
+                                                     
+                                                    <a id="votar-link-{{ $votacion->id }}" href="{{route('votar', ['id' => $votacion->id])}}">Votar
+                                                    </a>
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                            const uuid = localStorage.getItem('uuid');
+                                                            if (uuid) {
+                                                                const votarLink = document.getElementById('votar-link-{{ $votacion->id }}');
+                                                                votarLink.href += '?uuid=' + encodeURIComponent(uuid);
+                                                            }
+                                                        });
+                                                    </script>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
