@@ -186,5 +186,6 @@ Route::put('/votacion/{id}', function (Request $request, $id) {
         }
     }
 
-    return back()->with('success', 'Votación actualizada.');
+    return redirect()->route('dashboard')->with('status', 'Votación actualizada.');
+
 })->middleware(['auth'])->name('votacion.actualizar');
