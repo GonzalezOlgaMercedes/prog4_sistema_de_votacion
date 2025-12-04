@@ -1,13 +1,6 @@
 <x-guest-layout>
 
     <div class="max-w-3xl mx-auto mt-10 mb-8 px-4">
-        {{-- Botón volver --}}
-        <div class="mb-4">
-            <a href="javascript:history.back()"
-               class="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-500">
-                ← Volver
-            </a>
-        </div>
 
         {{-- Card de resultados --}}
         <div class="bg-white/95 p-8 rounded-3xl shadow-2xl border border-gray-200">
@@ -52,10 +45,16 @@
                     </div>
                 @endforeach
             </div>
-
-            <div class="mt-8 text-center text-gray-600 text-base">
-                Total de votos:
-                <span id="total-votos" class="font-semibold text-gray-900">{{ $totalVotos }}</span>
+            <div class="flex justify-between items-center mt-8 mb-4">
+                {{-- Botón volver --}}
+                <p class="text-center text-gray-600 text-base">
+                    Total de votos:
+                    <span id="total-votos" class="font-semibold text-gray-900">{{ $totalVotos }}</span>
+                </p>
+                <div><a href="javascript:history.back()"
+                    class="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-500">
+                        ← Volver
+                    </a></div>
             </div>
         </div>
     </div>
@@ -63,6 +62,6 @@
     {{-- Script que escucha Echo --}}
     @push('scripts')
         @vite('resources/js/resultados-socket.js')
-    @endpush>
+    @endpush
 
 </x-guest-layout>

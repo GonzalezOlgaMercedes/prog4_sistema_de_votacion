@@ -83,7 +83,8 @@ Route::post('/votar/{id}', function(Request $request, $id){
     event(new VotoEmitido($voto));
     Log::info("Evento VotoEmitido disparado para el voto ID: " . $voto->id);
 
-    return redirect('/')->with('status', 'Voto registrado exitosamente.');
+    //Redirigir a la página de resultados
+    return redirect('/resultados/'.$votacion->id)->with('status', 'Voto registrado exitosamente.');
 })->name('voto.store');
 
 Route::get('/resultados/{id}', function ($id) {

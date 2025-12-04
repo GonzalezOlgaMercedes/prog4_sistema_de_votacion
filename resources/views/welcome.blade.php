@@ -64,10 +64,20 @@
                                     {{ $votacion->titulo }}
                                 </p>
 
-                                <a href="{{ route('votar', $votacion->id) }}"
+                                <!-- Link de la votación -->
+                                <a id="votar-link-{{ $votacion->id }}" href="{{ route('votar', $votacion->id) }}"
                                    class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow">
                                     Votar
                                 </a>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const uuid = localStorage.getItem('uuid');
+                                        if (uuid) {
+                                            const votarLink = document.getElementById('votar-link-{{ $votacion->id }}');
+                                            votarLink.href += '?uuid=' + encodeURIComponent(uuid);
+                                        }
+                                    });
+                                </script>
                             </div>
                         @endforeach
                     </div>
