@@ -1,10 +1,10 @@
 <x-guest-layout>
 
-    <div class="min-h-screen flex items-center justify-center p-6">
-        <div class="w-full max-w-5xl">
+    <div class="min-h-screen flex items-center justify-center  p-6">
+        <div class="w-full max-w-5xl ">
 
             {{-- Header --}}
-            <div class="grid grid-cols-4 items-center justify-between mb-8">       
+            <div class="text-center grid-cols-4 items-center justify-between mb-8">       
                 {{-- Título principal --}}
             <h2 class="text-4xl col-span-3 md:text-5xl font-extrabold mb-4 leading-tight text-gray-900">
                 Bienvenido al sistema de votación
@@ -19,38 +19,38 @@
                         </a>
                     </div>
                 @else
-                    <div class="flex justify-end w-full">
+                    <!-- <div class="flex justify-end w-full">
                         <a href="{{ route('login') }}"
                            class="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-500">
                             Iniciar sesión
                         </a>
-                    </div>
+                    </div> -->
                 @endauth
             </div>
 
             
 
-            <p class="text-base md:text-lg mb-6 max-w-xl text-gray-700">
+            <p class="text-base md:text-lg mb-6 max-w-xl text-gray-700 mx-auto text-center">
                 Creá votaciones, abrílas al público y visualizá los resultados en tiempo real.
             </p>
 
             {{-- Botones --}}
             @guest
-                <div class="flex flex-wrap gap-4 mb-10">
+                <div class="flex flex-wrap gap-4 mb-10 justify-center">
                     <a href="{{ route('login') }}"
                        class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-md hover:bg-indigo-500 text-sm">
                         Iniciar sesión como administrador
                     </a>
 
-                    <a href="{{ route('register') }}"
+                    <!-- <a href="{{ route('register') }}"
                        class="px-6 py-3 bg-white border border-indigo-300 text-indigo-700 font-semibold rounded-xl shadow-md hover:bg-indigo-50 text-sm">
                         Registrarme
-                    </a>
+                    </a> -->
                 </div>
             @endguest
 
             {{-- Votaciones abiertas --}}
-            <div class="bg-indigo-50 rounded-2xl p-6 shadow-sm border border-indigo-100 max-w-xl">
+            <div class="bg-indigo-50 rounded-2xl p-6 shadow-sm border border-indigo-100 max-w-xl mx-auto">
                 <h3 class="text-lg font-semibold mb-4 text-gray-800">
                     Votaciones abiertas ahora mismo
                 </h3>
