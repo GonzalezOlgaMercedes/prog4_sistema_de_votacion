@@ -60,14 +60,27 @@
                     <div class="space-y-3">
                         @foreach($votaciones as $votacion)
                             <div class="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-gray-200 hover:border-indigo-300 transition">
-                                <p class="font-semibold text-gray-900">
+                                <p class="font-semibold text-gray-900 max-w-xs break-words">
                                     {{ $votacion->titulo }}
                                 </p>
 
                                 <!-- Link de la votación -->
-                                <a id="votar-link-{{ $votacion->id }}" href="{{ route('votar', $votacion->id) }}"
+                                <a
+                                @if ($votacion->estado == 'cerrada') 
+                                    hidden
+                                @endif
+                                
+                                id="votar-link-{{ $votacion->id }}" href="{{ route('votar', $votacion->id) }}"
                                    class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow">
                                     Votar
+                                </a>
+                                <a
+                                @if ($votacion->estado != 'cerrada') 
+                                    hidden
+                                @endif
+                                id="resultados-link-{{ $votacion->id }}" href="{{ route('resultados', $votacion->id) }}"
+                                   class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow">
+                                    Ver
                                 </a>
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function() {
@@ -86,5 +99,9 @@
 
         </div>
     </div>
+    {{-- Script que escucha Echo --}}
+    @push('scripts')
+        @vite('resources/js/welcome-socket.js')
+    @endpush
 
 </x-guest-layout>

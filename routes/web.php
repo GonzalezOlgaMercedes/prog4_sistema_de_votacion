@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\VotacionAbierta;
 use App\Events\VotacionCerrada;
 use App\Events\VotoEmitido;
 use App\Http\Controllers\ProfileController;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $votaciones = Votacion::where('estado','abierta')->limit(10)->get();
+    $votaciones = Votacion::limit(10)->get();
     return view('welcome' ,['votaciones' => $votaciones]);
 });
 
@@ -99,6 +100,7 @@ Route::put('/votacion/{id}/alternar', function ($id) {
     $votacion = Votacion::findOrFail($id);
     if($votacion->estado == 'cerrada'){
         $votacion->estado = 'abierta';
+        event(new VotacionAbierta($votacion));
     } else {
         $votacion->estado = 'cerrada';
         event(new VotacionCerrada($votacion));

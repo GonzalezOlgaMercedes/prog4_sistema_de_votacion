@@ -5,7 +5,7 @@
                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                     Panel de Votaciones
                 </h2>
-                <p class="text-sm text-gray-600 mt-1">
+                <p class="text-sm text-gray-600 dark:text-white mt-1">
                     Gestioná fácilmente las votaciones del sistema.
                 </p>
             </div>
@@ -20,18 +20,12 @@
     </x-slot>
 
     <div class="py-10 min-h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-cyan-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
 
-            {{-- Mensaje flash --}}
-            @if (session('status'))
-                <div class="bg-green-100 border border-green-300 text-green-700 px-4 py-2 rounded-xl">
-                    {{ session('status') }}
-                </div>
-            @endif
-
+            
             @php
-                $total = $votaciones->count();
-                $abiertas = $votaciones->where('estado', 'abierta')->count();
+            $total = $votaciones->count();
+            $abiertas = $votaciones->where('estado', 'abierta')->count();
                 $cerradas = $votaciones->where('estado', 'cerrada')->count();
             @endphp
 
@@ -42,18 +36,24 @@
                     <p class="text-xs font-semibold text-gray-500 uppercase">Votaciones Totales</p>
                     <p class="mt-2 text-3xl font-bold text-gray-800">{{ $total }}</p>
                 </div>
-
+                
                 <div class="bg-white shadow-md rounded-2xl p-6 border border-green-300">
                     <p class="text-xs font-semibold text-green-600 uppercase">Votaciones Abiertas</p>
                     <p class="mt-2 text-3xl font-bold text-green-600">{{ $abiertas }}</p>
                 </div>
-
+                
                 <div class="bg-white shadow-md rounded-2xl p-6 border border-gray-300">
                     <p class="text-xs font-semibold text-gray-600 uppercase">Votaciones Cerradas</p>
                     <p class="mt-2 text-3xl font-bold text-gray-600">{{ $cerradas }}</p>
                 </div>
-
+                
             </div>
+            {{-- Mensaje flash --}}
+            @if (session('status'))
+                <div class="bg-green-100 border border-green-300 text-green-700 px-4 py-2 rounded-xl">
+                    {{ session('status') }}
+                </div>
+            @endif
 
             {{-- Tabla --}}
             <div class="bg-white shadow-xl rounded-3xl border border-gray-200 overflow-hidden">
