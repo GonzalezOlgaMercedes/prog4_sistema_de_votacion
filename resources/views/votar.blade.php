@@ -78,6 +78,26 @@
         </div>
     </div>
 
+    <dialog id="modal-votacion-cerrada-{{ $votacion->id }}" class="rounded-xl p-0 backdrop:bg-black/50">
+    <form method="dialog" class="p-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-900">
+        La votación ha cerrado
+        </h2>
+
+        <p class="text-gray-700 mb-6">
+        Lo sentimos, pero esta votación ya no está disponible para votar.
+        </p>
+
+        <div class="text-right">
+        <a href="{{ url('/') }}"
+            class="px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md transition">
+            Volver a la página principal
+        </a>
+        </div>
+    </form>
+    </dialog>
+
+
     {{-- Script para gestionar UUID del votante --}}
     <script>
         // Verificamos en el localStorage si ya existe un uuid, si no existe lo creamos
@@ -89,5 +109,7 @@
         // Asignamos el valor del uuid al input hidden
         document.getElementById('uuidInput').value = uuid;
     </script>
-
+    @push('scripts')
+        @vite('resources/js/votar-socket.js')        
+    @endpush
 </x-guest-layout>

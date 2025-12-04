@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\VotacionCerrada;
 use App\Events\VotoEmitido;
 use App\Http\Controllers\ProfileController;
 use App\Models\Votacion;
@@ -100,6 +101,7 @@ Route::put('/votacion/{id}/alternar', function ($id) {
         $votacion->estado = 'abierta';
     } else {
         $votacion->estado = 'cerrada';
+        event(new VotacionCerrada($votacion));
     }
     $votacion->save();
     return redirect()->back()->with('status', 'Votación '.$votacion->estado.' exitosamente.');
