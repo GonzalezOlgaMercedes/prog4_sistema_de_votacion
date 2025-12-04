@@ -55,52 +55,57 @@
                     Votaciones abiertas ahora mismo
                 </h3>
 
-                @if($votaciones->isEmpty())
-                    <p class="text-sm text-gray-600">
-                        Actualmente no hay votaciones abiertas.
-                    </p>
-                @else
-                    <div class="space-y-3">
-                        @foreach($votaciones as $votacion)
-                            <div class="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-gray-200 hover:border-indigo-300 transition">
-                                <p class="font-semibold text-gray-900 max-w-xs break-words">
-                                    {{ $votacion->titulo }}
-                                </p>
+                
+                <div class="space-y-3" id="votaciones-list">
+                    @foreach($votaciones as $votacion)
+                        <div class="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-gray-200 hover:border-indigo-300 transition">
+                            <p class="font-semibold text-gray-900 max-w-xs break-words">
+                                {{ $votacion->titulo }}
+                            </p>
 
-                                <!-- Link de la votación -->
-                                <a
-                                @if ($votacion->estado == 'cerrada') 
-                                    hidden
-                                @endif
-                                
-                                id="votar-link-{{ $votacion->id }}" href="{{ route('votar', $votacion->id) }}"
-                                   class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow">
-                                    Votar
-                                </a>
-                                <a
-                                @if ($votacion->estado != 'cerrada') 
-                                    hidden
-                                @endif
-                                id="resultados-link-{{ $votacion->id }}" href="{{ route('resultados', $votacion->id) }}"
-                                   class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow">
-                                    Ver
-                                </a>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        const uuid = localStorage.getItem('uuid');
-                                        if (uuid) {
-                                            const votarLink = document.getElementById('votar-link-{{ $votacion->id }}');
-                                            votarLink.href += '?uuid=' + encodeURIComponent(uuid);
-                                        }
-                                    });
-                                </script>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
+                            <!-- Link de la votación -->
+                            <a
+                            @if ($votacion->estado == 'cerrada') 
+                                hidden
+                            @endif
+                            
+                            id="votar-link-{{ $votacion->id }}" href="{{ route('votar', $votacion->id) }}"
+                                class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow">
+                                Votar
+                            </a>
+                            <a
+                            @if ($votacion->estado != 'cerrada') 
+                                hidden
+                            @endif
+                            id="resultados-link-{{ $votacion->id }}" href="{{ route('resultados', $votacion->id) }}"
+                                class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow">
+                                Ver
+                            </a>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const uuid = localStorage.getItem('uuid');
+                                    if (uuid) {
+                                        const votarLink = document.getElementById('votar-link-{{ $votacion->id }}');
+                                        votarLink.href += '?uuid=' + encodeURIComponent(uuid);
+                                    }
+                                });
+                            </script>
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
         </div>
+        <template id="votacion-template">
+            <div class="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-gray-200 hover:border-indigo-300 transition">
+                <p class="font-semibold text-gray-900 max-w-xs break-words titulo">
+                </p>
+
+                <!-- Link de la votación -->
+                <a class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow link-votar"> Votar </a>
+                <a class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-400 shadow link-resultados"> Ver </a>
+            </div>
+        </template>
     </div>
     {{-- Script que escucha Echo --}}
     @push('scripts')

@@ -2,6 +2,7 @@
 
 use App\Events\VotacionAbierta;
 use App\Events\VotacionCerrada;
+use App\Events\VotacionCreada;
 use App\Events\VotoEmitido;
 use App\Http\Controllers\ProfileController;
 use App\Models\Votacion;
@@ -137,6 +138,7 @@ Route::post('/votacion', function (Request $request) {
             'opcion_disponible' => $opcionForm["texto"],
         ]);
     }
+    event(new VotacionCreada($votacion));
 
     return redirect()->route('votacion.editar', $votacion->id)
         ->with('success', 'Votación creada correctamente.');

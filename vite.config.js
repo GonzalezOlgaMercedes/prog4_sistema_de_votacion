@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/resultados-socket.js', // 👈 NUEVO ENTRYPOINT
                 'resources/js/votar-socket.js',      // 👈 NUEVO ENTRYPOINT
+                'resources/js/welcome-socket.js',    // 👈 NUEVO ENTRYPOINT
             ],
             refresh: true,
         }),
