@@ -4,28 +4,31 @@
         <div class="w-full max-w-5xl">
 
             {{-- Header --}}
-            <div class="flex items-center justify-between mb-8">
-                <h1 class="text-2xl font-bold text-gray-800">
-                    Sistema de Votación en Tiempo Real
-                </h1>
+            <div class="grid grid-cols-4 items-center justify-between mb-8">       
+                {{-- Título principal --}}
+            <h2 class="text-4xl col-span-3 md:text-5xl font-extrabold mb-4 leading-tight text-gray-900">
+                Bienvenido al sistema de votación
+            </h2>
 
+                {{-- Botón al panel o login --}}         
                 @auth
-                    <a href="{{ route('dashboard') }}"
-                       class="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-500">
-                        Ir al panel
-                    </a>
+                    <div class="flex justify-end w-full">
+                        <a href="{{ route('dashboard') }}"
+                           class="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-500">
+                            Ir al panel
+                        </a>
+                    </div>
                 @else
-                    <a href="{{ route('login') }}"
-                       class="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-500">
-                        Iniciar sesión
-                    </a>
+                    <div class="flex justify-end w-full">
+                        <a href="{{ route('login') }}"
+                           class="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-500">
+                            Iniciar sesión
+                        </a>
+                    </div>
                 @endauth
             </div>
 
-            {{-- Título principal --}}
-            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-gray-900">
-                Bienvenido al sistema<br>de votación
-            </h2>
+            
 
             <p class="text-base md:text-lg mb-6 max-w-xl text-gray-700">
                 Creá votaciones, abrílas al público y visualizá los resultados en tiempo real.
